@@ -25,7 +25,7 @@ const Login = () => {
                         <label htmlFor="password" className='block mb-1 text-gray-600 font-semibold'>Password : </label>
                         <div className='bg-slate-100 p-2 flex'>
                         <input type={showPassword ? "text" : "password"} id='password' className='w-full h-full outline-none bg-transparent' placeholder='Enter your password' />
-                       <div className='cursor-pointer text-lg' onClick={() => setShowPassword((preve)=> !preve)}>
+                       <div  className='cursor-pointer text-lg' onClick={() => setShowPassword((preve)=> !preve)}>
                        <span> 
                         {
                             showPassword ? (
