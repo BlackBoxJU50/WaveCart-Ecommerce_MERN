@@ -6,6 +6,23 @@ import { Link } from 'react-router-dom';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [data, setData] = useState({
+        email : "",
+        password : ""
+    });
+    const handleOnChange = (e) => {
+        const {name, value} = e.target;
+        setData((preve) => {    
+            return {
+                ...preve,
+                [name] : value
+            };
+        });
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+       
+    }
   return (
     <section id='login'>
         <div className='mx-auto container p-4'>
@@ -13,18 +30,27 @@ const Login = () => {
                 <div className=' w-20 h-20 mx-auto '>
                     <img src={loginIcon} alt="LoginIcon" />
                 </div>
-                <form className='pt-6'>
+                <form className='pt-6 flex-col gap-2' onSubmit={{handleSubmit}}>
                     <div className='grid'>
                         <label htmlFor="email" className='block mb-1 text-gray-600 font-semibold'>Email : </label>
                        <div className='bg-slate-100 p-2'>
-                        <input type="email" id='email' className='w-full h-full outline-none bg-transparent' placeholder='Enter your email' />
+                        <input 
+                        type="email" 
+                        name='email'
+                        value={data.email}
+                        onChange={handleOnChange}
+                        id='email'  className='w-full h-full outline-none bg-transparent' placeholder='Enter your email' />
                     </div>
                     </div>
                     
                       <div >  
                         <label htmlFor="password" className='block mb-1 text-gray-600 font-semibold'>Password : </label>
                         <div className='bg-slate-100 p-2 flex'>
-                        <input type={showPassword ? "text" : "password"} id='password' className='w-full h-full outline-none bg-transparent' placeholder='Enter your password' />
+                        <input
+                        name='password'
+                        value={data.password}
+                        onChange={handleOnChange}
+                        type={showPassword ? "text" : "password"} id='password' className='w-full h-full outline-none bg-transparent' placeholder='Enter your password' />
                        <div  className='cursor-pointer text-lg' onClick={() => setShowPassword((preve)=> !preve)}>
                        <span> 
                         {
