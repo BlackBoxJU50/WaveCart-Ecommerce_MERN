@@ -3,6 +3,7 @@ import loginIcon from '../assest/signin.gif'
 import { FaEye } from "react-icons/fa6";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import imageTobase64 from '../helpers/imageTobase64';
 
 
 const SignUp = () => {
@@ -24,14 +25,22 @@ const SignUp = () => {
       };
     });
   };
+
+  const handleUploadPic = async(e) => {
+    const file = e.target.files[0];
+    const imagePic = await imageTobase64(file);
+    
+    setData((preve) => {
+      return {
+        ...preve,
+        profilePic: imagePic
+      };
+    });
+
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
 
-  }
-  const handleUploadPic = (e) => {
-    const file = e.target.files[0];
-    console.log(file);  
-   
   }
   return (
     <section id='signup'>
@@ -39,16 +48,16 @@ const SignUp = () => {
         <div className='bg-white p-2 py-5 w-full max-w-sm mx-auto '>
           <div className=' w-20 h-20 mx-auto  relative overflow-hidden rounded-full '>
             <div>
-              <img src={loginIcon} alt="LoginIcon" />
+              <img src={data.profilePic || loginIcon} alt="LoginIcon" />
             </div>
             <form action="">
-              <label htmlFor="">
+              <label >
                 <div className='text-xs bg-opacity-80 pb-4 pt-3 bg-slate-200 text-center py-4 absolute bottom-0 w-full cursor-pointer' >
 
                   Upload Photo
                 </div>
 
-                <input type="file" className=' hidden '  onChange={handleUploadPic}/>
+                <input type="file" className=" hidden " onChange={handleUploadPic} />
 
               </label>
 
@@ -56,7 +65,7 @@ const SignUp = () => {
             </form>
           </div>
 
-          <form className='pt-6 flex-col gap-2' onSubmit={{ handleSubmit }}>
+          <form className='pt-6 flex-col gap-2' onSubmit={ handleSubmit }>
             <div className='grid'>
               <label className='block mb-1 text-gray-600 font-semibold' >Name : </label>
               <div className='bg-slate-100 p-2'>
@@ -65,6 +74,7 @@ const SignUp = () => {
                   name='name'
                   value={data.name}
                   onChange={handleOnChange}
+                  required
                   id='email' className='w-full h-full outline-none bg-transparent' placeholder='Enter your name ' />
               </div>
             </div>
@@ -76,6 +86,7 @@ const SignUp = () => {
                   name='email'
                   value={data.email}
                   onChange={handleOnChange}
+                  required
                   id='email' className='w-full h-full outline-none bg-transparent' placeholder='Enter your email' />
               </div>
             </div>
@@ -87,6 +98,7 @@ const SignUp = () => {
                   name='password'
                   value={data.password}
                   onChange={handleOnChange}
+                  required
                   type={showPassword ? "text" : "password"} id='password' className='w-full h-full outline-none bg-transparent' placeholder='Enter your password' />
                 <div className='cursor-pointer text-lg' onClick={() => setShowPassword((preve) => !preve)}>
                   <span>
@@ -115,6 +127,8 @@ const SignUp = () => {
                   name='confirmpassword'
                   value={data.confirmpassword}
                   onChange={handleOnChange}
+                  required
+                  
                   type={showConfirmPassword ? "text" : "password"} id='password' className='w-full h-full outline-none bg-transparent' placeholder='Enter Confirm password' />
                 <div className='cursor-pointer text-lg' onClick={() => setShowConfirmPassword((preve) => !preve)}>
                   <span>
