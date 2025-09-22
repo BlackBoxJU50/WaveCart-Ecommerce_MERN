@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import loginIcon from '../assest/signin.gif'
 import { FaEye } from "react-icons/fa6";
 import { FaEyeSlash } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import imageTobase64 from '../helpers/imageTobase64';
 import SummaryApi from '../common';
 import { toast } from 'react-toastify';
@@ -19,6 +19,9 @@ const SignUp = () => {
     confirmpassword: "",
     profilePic: ""
   });
+  const navigate = useNavigate();
+
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setData((preve) => {
@@ -56,12 +59,13 @@ const SignUp = () => {
       const dataApi = await dataResponse.json();
 
       if (dataApi.success) {
-  toast.success(dataApi.message);
-} 
+        toast.success(dataApi.message);
+        navigate('/login');
+      }
 
-if (dataApi.error) {
-  toast.error(dataApi.message);
-}
+      if (dataApi.error) {
+        toast.error(dataApi.message);
+      }
 
 
       console.log(dataApi);
