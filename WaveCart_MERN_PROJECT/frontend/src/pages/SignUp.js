@@ -5,6 +5,7 @@ import { FaEyeSlash } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import imageTobase64 from '../helpers/imageTobase64';
 import SummaryApi from '../common';
+import { toast } from 'react-toastify';
 
 
 const SignUp = () => {
@@ -27,10 +28,10 @@ const SignUp = () => {
     });
   };
 
-  const handleUploadPic = async(e) => {
+  const handleUploadPic = async (e) => {
     const file = e.target.files[0];
     const imagePic = await imageTobase64(file);
-    
+
     setData((preve) => {
       return {
         ...preve,
@@ -39,28 +40,34 @@ const SignUp = () => {
     });
 
   }
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if(data.password === data.confirmpassword){
-     
-         
-    const dataResponse = await fetch(SummaryApi.signUp.url, {
-      method: SummaryApi.signUp.method,
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    });
-    const dataApi = await dataResponse.json();
-    alert(data.message);
-        console.log(dataApi);
+    if (data.password === data.confirmpassword) {
+
+
+      const dataResponse = await fetch(SummaryApi.signUp.url, {
+        method: SummaryApi.signUp.method,
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+      const dataApi = await dataResponse.json();
+      if (dataApi.success) {
+        toast.success("User Register Successfully");
+      }
+
+      if (dataApi.error) {
+        toast.error(dataApi.massage);
+      }
+
+      console.log(dataApi);
+    }
+    else {
+      console.log("Password and Confirm Password do not match");
+
+    }
   }
-  else
-  {
-     console.log("Password and Confirm Password do not match");
-     
-  }
-}
   return (
     <section id='signup'>
       <div className='mx-auto container p-4'>
@@ -84,7 +91,7 @@ const SignUp = () => {
             </form>
           </div>
 
-          <form className='pt-6 flex-col gap-2' onSubmit={ handleSubmit }>
+          <form className='pt-6 flex-col gap-2' onSubmit={handleSubmit}>
             <div className='grid'>
               <label className='block mb-1 text-gray-600 font-semibold' >Name : </label>
               <div className='bg-slate-100 p-2'>
@@ -147,7 +154,7 @@ const SignUp = () => {
                   value={data.confirmpassword}
                   onChange={handleOnChange}
                   required
-                  
+
                   type={showConfirmPassword ? "text" : "password"} id='password' className='w-full h-full outline-none bg-transparent' placeholder='Enter Confirm password' />
                 <div className='cursor-pointer text-lg' onClick={() => setShowConfirmPassword((preve) => !preve)}>
                   <span>
