@@ -6,14 +6,13 @@ const router = express.Router();
 
 
 const userSignUpController = require("../controller/userSignUp");
+const userSignInController = require("../controller/userSignIn");
 
 
 
 router.post('/signup', userSignUpController);
 
-router.get('/test', (req, res) => {
-  res.send('Test route working');
-});
+router.post('/signin', userSignInController);
 
 
 
