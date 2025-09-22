@@ -6,6 +6,13 @@ async function UserSignUpController(req, res) {
 
 
         const { name, email, password } = req.body;
+
+        const user = await userModel.findOne({ email }); 
+        console.log(user);
+        if (user) {
+            throw new Error('User already exists with this email'); 
+        }
+
         if (!name) {
             throw new Error('Name is required');
 
@@ -47,10 +54,11 @@ async function UserSignUpController(req, res) {
 
 
     } catch (err) {
+       
         res.json({
 
-            message: err,
-            errir: true,
+            message: err.message || err ,
+            error: true,
             success: false,
         }
 

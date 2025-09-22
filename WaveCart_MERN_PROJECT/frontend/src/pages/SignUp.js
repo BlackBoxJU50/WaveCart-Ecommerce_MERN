@@ -4,6 +4,7 @@ import { FaEye } from "react-icons/fa6";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import imageTobase64 from '../helpers/imageTobase64';
+import SummaryApi from '../common';
 
 
 const SignUp = () => {
@@ -38,10 +39,28 @@ const SignUp = () => {
     });
 
   }
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-
+    if(data.password === data.confirmpassword){
+     
+         
+    const dataResponse = await fetch(SummaryApi.signUp.url, {
+      method: SummaryApi.signUp.method,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    const dataApi = await dataResponse.json();
+    alert(data.message);
+        console.log(dataApi);
   }
+  else
+  {
+     console.log("Password and Confirm Password do not match");
+     
+  }
+}
   return (
     <section id='signup'>
       <div className='mx-auto container p-4'>
