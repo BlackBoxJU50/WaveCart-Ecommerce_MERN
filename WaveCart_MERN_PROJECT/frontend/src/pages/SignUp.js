@@ -8,6 +8,7 @@ import SummaryApi from '../common';
 import { toast } from 'react-toastify';
 
 
+
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -53,13 +54,15 @@ const SignUp = () => {
         body: JSON.stringify(data)
       });
       const dataApi = await dataResponse.json();
-      if (dataApi.success) {
-        toast.success("User Register Successfully");
-      }
 
-      if (dataApi.error) {
-        toast.error(dataApi.massage);
-      }
+      if (dataApi.success) {
+  toast.success(dataApi.message);
+} 
+
+if (dataApi.error) {
+  toast.error(dataApi.message);
+}
+
 
       console.log(dataApi);
     }

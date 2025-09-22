@@ -7,11 +7,16 @@ async function UserSignUpController(req, res) {
 
         const { name, email, password } = req.body;
 
-        const user = await userModel.findOne({ email }); 
+        const user = await userModel.findOne({ email });
         console.log(user);
         if (user) {
-            throw new Error('User already exists with this email'); 
+            return res.status(409).json({
+                message: 'User already exists with this email',
+                error: true,
+                success: false,
+            });
         }
+
 
         if (!name) {
             throw new Error('Name is required');
@@ -40,7 +45,7 @@ async function UserSignUpController(req, res) {
 
 
         const userData = new userModel(payload);
-        const savedUser = userData.save();
+        const savedUser = await userData.save();
 
         res.status(201).json({
             message: 'User registered successfully',
@@ -48,16 +53,16 @@ async function UserSignUpController(req, res) {
             error: false,
             data: savedUser,
         });
-        
+
 
 
 
 
     } catch (err) {
-       
+
         res.json({
 
-            message: err.message || err ,
+            message: err.message || err,
             error: true,
             success: false,
         }
